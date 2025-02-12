@@ -2,7 +2,7 @@
 	Page titlebar - Main <H1> title for all pages, with either the indicators or language selector.
 	When language button is visible, indicators are placed in the BeforeContent.mustache template instead.
 }}
-<header class="mw-body-header vector-page-titlebar{{#is-title-blank}} vector-page-titlebar-blank{{/is-title-blank}}">
+<header data-title="{{{data-title}}}" class="mw-body-header vector-page-titlebar{{#is-title-blank}} vector-page-titlebar-blank{{/is-title-blank}}"><div id="header-blur">
 	{{#data-toc}}
 	{{! Checkbox hack used by collapsed TOC on narrow viewports for no JS users }}
 	<label
@@ -30,7 +30,7 @@
 		{{#data-page-titlebar-toc-dropdown}}{{>Dropdown/Close}}{{/data-page-titlebar-toc-dropdown}}
 	</nav>
 	{{/data-toc}}
-	{{{html-title-heading}}}
+	<div id="firstHeading-wrapper">{{{html-title-heading}}}</div>
 
 	{{#has-buttons-in-content-top}}
 		{{#data-lang-btn}}
@@ -44,4 +44,4 @@
 	{{^has-buttons-in-content-top}}
 		{{>Indicators}}
 	{{/has-buttons-in-content-top}}
-</header>
+</div></header>

@@ -52,7 +52,7 @@ class VectorComponentMainMenu implements VectorComponent {
 		$this->isPinned = $featureManager->isFeatureEnabled( Constants::FEATURE_MAIN_MENU_PINNED );
 
 		if ( $user->isRegistered() ) {
-			$this->optOut = new VectorComponentMainMenuActionOptOut( $skin );
+			//$this->optOut = new VectorComponentMainMenuActionOptOut( $skin );
 
 			$isPageToolsEnabled = $featureManager->isFeatureEnabled( Constants::FEATURE_PAGE_TOOLS );
 			if ( $isPageToolsEnabled ) {

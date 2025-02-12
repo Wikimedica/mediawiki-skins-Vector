@@ -17,7 +17,10 @@
 {{! `role` is unnecessary but kept to support selectors in any gadgets or user styles and
 	to mitigate a VoiceOver bug. }}
 <footer id="footer" class="mw-footer" role="contentinfo" {{{html-user-language-attributes}}}>
-	{{#data-info}}{{>Footer__row}}{{/data-info}}
+	<table><tr>
+	<td>{{#data-info}}{{>Footer__row}}{{/data-info}}
 	{{#data-places}}{{>Footer__row}}{{/data-places}}
-	{{#data-icons}}{{>Footer__row}}{{/data-icons}}
+	{{#data-icons}}{{>Footer__row}}{{/data-icons}}</td>
+	<td style="text-align: right; width: 25%;"><a href="https://ulaval.ca"><img src="https://wikimedi.ca/images/thumb/2/23/Logo_de_l%27Universit%C3%A9_Laval.png/200px-Logo_de_l%27Universit%C3%A9_Laval.png" title="Université Laval, partenaire dans la diffusion du savoir" /></a></td>
+	</tr></table>
 </footer>
