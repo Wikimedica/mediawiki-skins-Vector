@@ -45,7 +45,7 @@ function adaptApiResponse( config, query, restResponse, showDescription ) {
 				label: page.title,
 				key: page.key,
 				title: page.title,
-				description: showDescription ? page.description : undefined,
+				description: showDescription ? (page.matched_title ? "↑ " + page.matched_title : "") : undefined,
 				url: urlGeneratorInstance.generateUrl( page ),
 				thumbnail: thumbnail ? {
 					url: thumbnail.url,
