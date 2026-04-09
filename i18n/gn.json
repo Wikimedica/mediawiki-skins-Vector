@@ -2,15 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Hugo.arg",
-			"P. S. F. Freitas",
-			"Amire80"
+			"P. S. F. Freitas"
 		]
 	},
 	"vector-skin-desc": "Proporciona dos apariencias de Vector:\n* 2011 - Versión moderna de MonoBook, con un aspecto actualizado y muchas mejoras de usabilidad\n* 2022 - Vector construido como parte del proyecto [[mw:Desktop Improvements|Mejoras a la IU de escritorio]] de la Fundación Wikimedia.",
 	"prefs-vector-enable-vector-1-label": "Eipuru jehechauka oúva Vector rembiejágui",
 	"prefs-vector-enable-vector-1-help": "Durante los próximos años, actualizaremos gradualmente la piel Vector. La versión heredada de Vector te permitirá ver la versión anterior de Vector (a diciembre de 2019). Para obtener más información sobre las actualizaciones, ve a nuestra [[mw:Reading/Web/Desktop_Improvements|página del proyecto]].",
-	"vector-opt-out": "Ehecha kuri guaréicha",
-	"vector-opt-out-tooltip": "Emoambue ne poravorã rehecha jey hag̃ua kuatia kuri guaréicha (Vector rembiejakue)",
 	"vector-action-toggle-sidebar": "Ehecha/eñomi tendayke",
 	"vector-languages": "Ñe'ẽnguéra",
 	"vector-language-button-aria-label": "Ehecha peteĩ kuatia oĩva ambue ñe'ẽme. Ojeguereko {{PLURAL:$1|$1 ñe'ẽ}}",
@@ -33,8 +30,19 @@
 	"vector-jumptosearch": "Eho eheka hag̃ua",
 	"vector-jumptocontent": "Eho kuatia retepýpe",
 	"vector-more-actions": "Ve",
-	"vector-search-loader": "Oheka hína marandu",
-	"vector-searchsuggest-containing": "Eheka umi kuatia oguerekóva <strong class=\"cdx-typeahead-search__search-footer__query\">$1</strong>",
+	"vector-appearance-label": "Ojehechaháicha",
+	"vector-feature-limited-width-name": "Ipekue",
+	"vector-feature-limited-width-0-label": "Tuicha",
+	"vector-feature-limited-width-1-label": "Jepivegua",
+	"vector-feature-custom-font-size-name": "Jehaipy",
+	"vector-feature-custom-font-size-0-label": "Michĩ",
+	"vector-feature-custom-font-size-1-label": "Jepivegua",
+	"vector-feature-custom-font-size-2-label": "Tuicha",
+	"skin-theme-name": "Sa'y",
+	"skin-theme-day-label": "Tesakã",
+	"skin-theme-night-label": "Pytũ",
+	"skin-theme-os-label": "Ijeheguíva",
+	"skin-theme-exclusion-notice": "Ko kuatia akóinte oĩ tesakãme.",
 	"vector-intro-page": "Help:Ñepyrũrã",
 	"vector-toc-label": "Marandu oĩva ko'ápe",
 	"vector-toc-beginning": "Ñepyrũ",
@@ -47,7 +55,7 @@
 	"vector-toc-collapsible-button-label": "Embojopyru pe marandu rechaukaha",
 	"vector-site-nav-label": "Tenda",
 	"vector-main-menu-label": "Poravorã tenondegua",
-	"vector-limited-width-toggle": "Embojopyru mba'éicha oñemboapýra kuatia tuichakue",
+	"vector-feature-custom-font-size-exclusion-notice": "Ko kuatia oipuru meme tai michĩva",
 	"vector-page-tools-label": "Tembiporu",
 	"vector-page-tools-general-label": "Opavave",
 	"vector-page-tools-actions-label": "Tembiapo",
@@ -57,5 +65,8 @@
 	"tooltip-vector-anon-user-menu-title": "Hetave poravorã",
 	"vector-prefs-limited-width": "Emboguata mba'éicha oñemboapýra tuichakue",
 	"vector-prefs-limited-width-help": "Emboguata mba'éicha oñemboapýra tuichakue oñemyatyrõ hag̃ua ñemoñe'ẽrã.",
-	"empty-language-selector-body": "Kuatia retepy ndaipóri ambue ñe'ẽme."
+	"empty-language-selector-body": "Kuatia retepy ndaipóri ambue ñe'ẽme.",
+	"vector-toc-unpinned-popup": "Ápe oĩ marandu rechaukaha ko'ãga.",
+	"vector-page-tools-unpinned-popup": "Ápe oĩ tembiporukuéra ko'ãga.",
+	"vector-main-menu-unpinned-popup": "Ápe oĩ poravorã tenondegua ko'ãga."
 }

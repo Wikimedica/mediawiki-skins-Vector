@@ -5,8 +5,6 @@ use MediaWiki\Skins\Vector\SkinVector22;
 use ReflectionMethod;
 
 /**
- * Class VectorTemplateTest
- * @package MediaWiki\Skins\Vector\Tests\Unit
  * @coversDefaultClass \MediaWiki\Skins\Vector\SkinVector22
  * @group Vector
  * @group Skins
@@ -25,7 +23,7 @@ class SkinVector22Test extends \MediaWikiUnitTestCase {
 		'id' => 'p-wikibase-otherprojects',
 	];
 
-	public function provideExtractPageToolsFromSidebar() {
+	public static function provideExtractPageToolsFromSidebar() {
 		return [
 			[
 				[],
@@ -92,7 +90,6 @@ class SkinVector22Test extends \MediaWikiUnitTestCase {
 			SkinVector22::class,
 			'extractPageToolsFromSidebar'
 		);
-		$extractPageToolsFromSidebar->setAccessible( true );
 		$extractPageToolsFromSidebar->invokeArgs( null, [ &$sidebar, &$pageTools ] );
 		$this->assertEquals( $expectedSidebar, $sidebar );
 		$this->assertEquals( $expectedPageTools, $pageTools, $msg );

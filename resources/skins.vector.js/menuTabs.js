@@ -1,4 +1,4 @@
-var
+const
 	TABS_SELECTOR = '.vector-menu-tabs',
 	LIST_ITEM_JS_SELECTOR = '.mw-list-item-js',
 	NO_ICON_CLASS = 'vector-tab-noicon';
@@ -14,11 +14,6 @@ function addNoIconClass( item ) {
 }
 
 function init() {
-	// Feature detect whether the `.closest` api is supported. If not, return early.
-	if ( !document.body.closest ) {
-		return;
-	}
-
 	// Enhance previously added items.
 	Array.prototype.forEach.call(
 		document.querySelectorAll( TABS_SELECTOR + ' ' + LIST_ITEM_JS_SELECTOR ),
@@ -29,7 +24,7 @@ function init() {
 		/**
 		 * @param {HTMLElement} item
 		 */
-		function ( item ) {
+		( item ) => {
 			// Check if this menu item belongs to a tabs menu.
 			if ( item.closest( TABS_SELECTOR ) ) {
 				addNoIconClass( item );

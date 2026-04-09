@@ -1,23 +1,27 @@
 <?php
 namespace MediaWiki\Skins\Vector\Components;
 
-use Linker;
-use MalformedTitleException;
+use MediaWiki\Html\Html;
+use MediaWiki\Linker\Linker;
+use MediaWiki\Message\Message;
 use MediaWiki\Skin\SkinComponentLink;
-use MediaWiki\Skins\Vector\Constants;
-use MediaWiki\Skins\Vector\VectorServices;
-use Message;
+use MediaWiki\Title\MalformedTitleException;
+use MediaWiki\Title\Title;
+use MediaWiki\User\UserIdentity;
 use MessageLocalizer;
-use Title;
-use User;
 
 /**
  * VectorComponentUserLinks component
  */
 class VectorComponentUserLinks implements VectorComponent {
+
+	private const BUTTON_CLASSES = 'cdx-button cdx-button--fake-button '
+		. 'cdx-button--fake-button--enabled cdx-button--weight-quiet';
+	private const ICON_ONLY_BUTTON_CLASS = 'cdx-button--icon-only';
+
 	/** @var MessageLocalizer */
 	private $localizer;
-	/** @var User */
+	/** @var UserIdentity */
 	private $user;
 	/** @var array */
 	private $portletData;
@@ -28,14 +32,14 @@ class VectorComponentUserLinks implements VectorComponent {
 
 	/**
 	 * @param MessageLocalizer $localizer
-	 * @param User $user
+	 * @param UserIdentity $user
 	 * @param array $portletData
 	 * @param array $linkOptions
 	 * @param string $userIcon that represents the current type of user
 	 */
 	public function __construct(
 		MessageLocalizer $localizer,
-		User $user,
+		UserIdentity $user,
 		array $portletData,
 		array $linkOptions,
 		string $userIcon = 'userAvatar'
@@ -58,16 +62,15 @@ class VectorComponentUserLinks implements VectorComponent {
 	/**
 	 * @param bool $isDefaultAnonUserLinks
 	 * @param bool $isAnonEditorLinksEnabled
+	 * @param int $userLinksCount
 	 * @return VectorComponentDropdown
 	 */
-	private function getDropdown( $isDefaultAnonUserLinks, $isAnonEditorLinksEnabled ) {
+	private function getDropdown( $isDefaultAnonUserLinks, $isAnonEditorLinksEnabled, $userLinksCount ) {
 		$user = $this->user;
 		$isAnon = !$user->isRegistered();
 
 		$class = 'vector-user-menu';
-		if ( VectorServices::getFeatureManager()->isFeatureEnabled( Constants::FEATURE_PAGE_TOOLS ) ) {
-			$class .= ' mw-ui-icon-flush-right';
-		}
+		$class .= ' vector-button-flush-right';
 		$class .= !$isAnon ?
 			' vector-user-menu-logged-in' :
 			' vector-user-menu-logged-out';
@@ -75,12 +78,23 @@ class VectorComponentUserLinks implements VectorComponent {
 		// Hide entire user links dropdown on larger viewports if it only contains
 		// create account & login link, which are only shown on smaller viewports
 		if ( $isAnon && $isDefaultAnonUserLinks && !$isAnonEditorLinksEnabled ) {
-			$class .= ' user-links-collapsible-item';
+			$linkclass = ' user-links-collapsible-item';
+
+			if ( $userLinksCount === 0 ) {
+				// The user links can be completely empty when even login is not possible
+				// (e.g using remote authentication). In this case, we need to hide the
+				// dropdown completely not only on larger viewports.
+				$linkclass .= '--none';
+			}
+
+			$class .= $linkclass;
 		}
 
-		$tooltip = '';
+		$tooltip = Html::expandAttributes( [
+			'title' => $this->msg( 'vector-personal-tools-tooltip' )->text(),
+		] );
 		$icon = $this->userIcon;
-		if ( $icon === '' ) {
+		if ( $icon === '' && $userLinksCount ) {
 			$icon = 'ellipsis';
 			// T287494 We use tooltip messages to provide title attributes on hover over certain menu icons.
 			// For modern Vector, the "tooltip-p-personal" key is set to "User menu" which is appropriate for
@@ -99,7 +113,7 @@ class VectorComponentUserLinks implements VectorComponent {
 	 * @param bool $isAnonEditorLinksEnabled
 	 * @return array
 	 */
-	private function getDropdownMenus( $isDefaultAnonUserLinks, $isAnonEditorLinksEnabled ) {
+	private function getMenus( $isDefaultAnonUserLinks, $isAnonEditorLinksEnabled ) {
 		$user = $this->user;
 		$isAnon = !$user->isRegistered();
 		$portletData = $this->portletData;
@@ -138,13 +152,13 @@ class VectorComponentUserLinks implements VectorComponent {
 					$anonUserMenuData['html-label'] = $this->msg( 'vector-anon-user-menu-pages' )->escaped() .
 						" " . $anonEditorLabelLinkHtml;
 					$anonUserMenuData['label'] = null;
-				} catch ( MalformedTitleException $e ) {
+				} catch ( MalformedTitleException ) {
 					// ignore (T340220)
 				}
 				$dropdownMenus[] = new VectorComponentMenu( $anonUserMenuData );
 			}
 		} else {
-			// Logout isnt enabled for temp users, who are considered still considered registeredt
+			// Logout isn't enabled for temp users, who are considered still considered registered
 			$isLogoutLinkEnabled = isset( $portletData[ 'data-user-menu-logout' ][ 'is-empty' ] ) &&
 				!$portletData[ 'data-user-menu-logout'][ 'is-empty' ];
 			if ( $isLogoutLinkEnabled ) {
@@ -158,27 +172,185 @@ class VectorComponentUserLinks implements VectorComponent {
 	}
 
 	/**
+	 * Strips icons from the menu.
+	 *
+	 * @param array $arrayListItems
+	 * @return array
+	 */
+	private static function stripIcons( array $arrayListItems ) {
+		return array_map( static function ( $item ) {
+			$item['array-links'] = array_map( static function ( $link ) {
+				$link['icon'] = null;
+				return $link;
+			}, $item['array-links'] );
+			return $item;
+		}, $arrayListItems );
+	}
+
+	/**
+	 * Converts links to button icons
+	 *
+	 * @param array $arrayListItems
+	 * @param bool $iconOnlyButton whether label should be visible.
+	 * @param array $exceptions list of names of items that should not be converted.
+	 * @return array
+	 */
+	private static function makeLinksButtons( $arrayListItems, $iconOnlyButton = true, $exceptions = [] ) {
+		return array_map( static function ( $item ) use ( $iconOnlyButton, $exceptions ) {
+			if ( in_array( $item[ 'name'], $exceptions ) ) {
+				return $item;
+			}
+			$item['array-links'] = array_map( static function ( $link ) use ( $iconOnlyButton ) {
+				$link['array-attributes'] = array_map( static function ( $attribute ) use ( $iconOnlyButton ) {
+					if ( $attribute['key'] === 'class' ) {
+						$newClass = $attribute['value'] . ' ' . self::BUTTON_CLASSES;
+						if ( $iconOnlyButton ) {
+							$newClass .= ' ' . self::ICON_ONLY_BUTTON_CLASS;
+						}
+						$attribute['value'] = $newClass;
+					}
+					return $attribute;
+				}, $link['array-attributes'] );
+				return $link;
+			}, $item['array-links'] );
+			return $item;
+		}, $arrayListItems );
+	}
+
+	/**
+	 * Makes all menu items collapsible at lower resolutions.
+	 *
+	 * @param array $arrayListItems
+	 * @return array
+	 */
+	private static function makeItemsCollapsible( $arrayListItems ) {
+		return array_map( static function ( $item ) {
+			$item['class'] .= ' user-links-collapsible-item';
+			return $item;
+		}, $arrayListItems );
+	}
+
+	/**
+	 * What class should the overflow menu have?
+	 *
+	 * @param array $arrayListItems
+	 * @return string
+	 */
+	private static function getOverflowMenuClass( $arrayListItems ) {
+		$overflowMenuClass = 'mw-portlet';
+		if ( count( $arrayListItems ) === 0 ) {
+			$overflowMenuClass .= ' emptyPortlet';
+		}
+		return $overflowMenuClass;
+	}
+
+	/**
 	 * @inheritDoc
 	 */
 	public function getTemplateData(): array {
 		$portletData = $this->portletData;
 
-		$isDefaultAnonUserLinks = count( $portletData['data-user-menu']['array-items'] ) === 2;
+		$userLinksCount = count( $portletData['data-user-menu']['array-items'] );
+		$isDefaultAnonUserLinks = $userLinksCount <= 3;
 		$isAnonEditorLinksEnabled = isset( $portletData['data-user-menu-anon-editor']['is-empty'] )
 			&& !$portletData['data-user-menu-anon-editor']['is-empty'];
 
-		$overflowMenu = new VectorComponentMenu( [
+		$userInterfacePreferences = $this->makeLinksButtons(
+			$this->makeItemsCollapsible(
+				$portletData[ 'data-user-interface-preferences' ]['array-items'] ?? []
+			),
+			false
+		);
+		$userPage = $this->makeItemsCollapsible(
+			$this->stripIcons( $portletData[ 'data-user-page' ]['array-items'] ?? [] )
+		);
+		$notifications = $this->makeLinksButtons(
+			$portletData[ 'data-notifications' ]['array-items'] ?? [],
+			true,
+			[ 'talk-alert' ]
+		);
+
+		$overflow = $this->makeItemsCollapsible(
+			array_map(
+				static function ( $item ) {
+					// Since we're creating duplicate icons
+					$item['id'] .= '-2';
+					return $item;
+				},
+				// array_filter preserves keys so use array_values to restore array.
+				array_values(
+					array_filter(
+						$portletData['data-user-menu']['array-items'] ?? [],
+						static function ( $item ) {
+							// Only certain items get promoted to the overflow menu:
+							// * readinglist
+							// * watchlist
+							// * login
+							// * create account
+							// * donate
+							$name = $item['name'];
+							return in_array( $name, [
+								'readinglists',
+								'watchlist',
+								'createaccount',
+								'login',
+								'login-private',
+								'sitesupport'
+							] );
+						}
+					)
+				)
+			)
+		);
+		// Convert to buttons for logged in users.
+		// For anons these will remain as links.
+		// Note: This list is empty for temporary users currently.
+		if ( $this->user->isRegistered() ) {
+			$overflow = $this->makeLinksButtons( $overflow );
+		}
+
+		$preferencesMenu = new VectorComponentMenu( [
+			'id' => 'p-vector-user-menu-preferences',
+			'class' => self::getOverflowMenuClass( $userInterfacePreferences ),
 			'label' => null,
-		] + $portletData[ 'data-vector-user-menu-overflow' ] );
+			'html-items' => null,
+			'array-list-items' => $userInterfacePreferences,
+		] );
+		$userPageMenu = new VectorComponentMenu( [
+			'id' => 'p-vector-user-menu-userpage',
+			'class' => self::getOverflowMenuClass( $userPage ),
+			'label' => null,
+			'html-items' => null,
+			'array-list-items' => $userPage,
+		] );
+		$notificationsMenu = new VectorComponentMenu( [
+			'id' => 'p-vector-user-menu-notifications',
+			'class' => self::getOverflowMenuClass( $notifications ),
+			'label' => null,
+			'html-items' => null,
+			'array-list-items' => $notifications,
+		] );
+		$overflowMenu = new VectorComponentMenu( [
+			'id' => 'p-vector-user-menu-overflow',
+			'class' => self::getOverflowMenuClass( $overflow ),
+			'label' => null,
+			'html-items' => null,
+			'array-list-items' => $overflow,
+		] );
 
 		return [
-			'is-wide' => count( $overflowMenu ) > 3,
-			'data-user-links-overflow-menu' => $overflowMenu->getTemplateData(),
-			'data-user-links-dropdown' => $this->getDropdown( $isDefaultAnonUserLinks, $isAnonEditorLinksEnabled )
-				->getTemplateData(),
-			'data-user-links-dropdown-menus' => array_map( static function ( $menu ) {
+			'is-wide' => array_filter(
+				[ $overflow, $notifications, $userPage, $userInterfacePreferences ]
+			) !== [],
+			'data-user-links-notifications' => $notificationsMenu->getTemplateData(),
+			'data-user-links-overflow' => $overflowMenu->getTemplateData(),
+			'data-user-links-preferences' => $preferencesMenu->getTemplateData(),
+			'data-user-links-user-page' => $userPageMenu->getTemplateData(),
+			'data-user-links-dropdown' => $this->getDropdown(
+				$isDefaultAnonUserLinks, $isAnonEditorLinksEnabled, $userLinksCount )->getTemplateData(),
+			'data-user-links-menus' => array_map( static function ( $menu ) {
 				return $menu->getTemplateData();
-			}, $this->getDropdownMenus( $isDefaultAnonUserLinks, $isAnonEditorLinksEnabled ) ),
+			}, $this->getMenus( $isDefaultAnonUserLinks, $isAnonEditorLinksEnabled ) ),
 		];
 	}
 }

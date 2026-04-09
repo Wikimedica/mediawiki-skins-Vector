@@ -3,7 +3,7 @@
 		Also used by CentralNotice to inject banners into Vector.
 	Indicator[] array-indicators wiki-defined badges such as "good article",
 		"featured article". An empty array if none are defined.
-	string html-title
+	string|null html-title
 	bool is-article
 	string msg-tagline
 	string html-subtitle
@@ -28,7 +28,7 @@
 <div id="mw-head-base" class="noprint"></div>
 <div id="content" class="mw-body" role="main">
 	<a id="top"></a>
-	<div id="siteNotice">{{{html-site-notice}}}</div>
+	{{{html-site-notice}}}
 	{{>Indicators}}
 	{{{html-title-heading}}}
 	<div id="bodyContent" class="vector-body">
@@ -60,10 +60,11 @@
 		<div id="right-navigation">
 			{{#data-views}}{{>LegacyMenu}}{{/data-views}}
 			{{#data-actions}}{{>LegacyMenu}}{{/data-actions}}
-			{{#data-search-box}}{{>SearchBox}}{{/data-search-box}}
+			{{#data-search-box}}{{>LegacySearchBox}}{{/data-search-box}}
 		</div>
 		{{/data-portlets}}
 	</div>
 	{{#data-portlets-main-menu}}{{>LegacySidebar}}{{/data-portlets-main-menu}}
 </div>
 {{#data-footer}}{{>Footer}}{{/data-footer}}
+{{>BottomDock}}

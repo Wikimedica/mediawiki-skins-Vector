@@ -1,12 +1,10 @@
-@import '../../common/variables.less';
-
 .vector-page-titlebar {
+	position: relative;
 	display: flex;
-
+	// T335633 - Although nowrap is default, setting it explicitly to prevent layout issues with ToC & languages button.
+	flex-wrap: nowrap;
 	// Ensure language button or indicators are positioned to the right even when the title is hidden
 	justify-content: flex-end;
-	// Use box-shadow instead of border to allow border collapsing between titlebar and toolbar
-	box-shadow: 0 1px @border-color-base;
 	align-items: center;
 
 	&-blank {
@@ -15,6 +13,7 @@
 
 	.firstHeading {
 		flex-grow: 1;
+		padding: 0;
 		border: 0;
 	}
 
@@ -22,26 +21,29 @@
 		display: none !important; /* stylelint-disable-line declaration-no-important */
 	}
 
-	> .mw-ui-button {
-		font-size: @font-size-base;
-		margin-top: 2px;
+	> .cdx-button {
+		font-size: @font-size-small;
 		// When labels have multiple words e.g. "Add topic" make sure they do not wrap onto
 		// new line. This can happen when editing pages with long titles. e.g. F36867314
 		white-space: nowrap;
+	}
 
-		// At low resolutions, the rule in core for `.mw-ui-button:not(.mw-ui-icon-element)`
-		// interferes with add topic and makes it overlap the language button. e.g. F36867319
-		&:not( .mw-ui-icon-element ) {
-			min-width: auto;
+	> .cdx-button,
+	> .mw-portlet-lang {
+		// Don't allow these to get clipped by a long title, see T386749.
+		flex-shrink: 0;
+
+		&:last-child {
+			.cdx-mixin-button-layout-flush( 'end' );
 		}
 	}
 
-	> .mw-ui-button,
-	> .mw-portlet-lang {
-		&:last-child {
-			// This number should be synced with the value in:
-			// https://github.com/wikimedia/mediawiki/blob/master/resources/src/mediawiki.less/mediawiki.ui/mixins.buttons.less#L33
-			margin-right: -12px;
-		}
+	// The language button sometimes appears as an icon only button, in which
+	// case we need to flush differently. See an empty user page for an example of
+	// where this is used.
+	// FIXME: This should be scoped to on desktop viewports only
+	// Currently the icon only language button is misaligned on smaller viewports
+	> .mw-portlet-lang-icon-only:last-child {
+		.cdx-mixin-button-layout-flush( 'end', true );
 	}
 }

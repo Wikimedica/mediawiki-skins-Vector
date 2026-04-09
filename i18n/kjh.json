@@ -1,9 +1,10 @@
 {
 	"@metadata": {
 		"authors": [
+			"Adam-Yourist",
 			"AlexandrL714",
-			"Андрей Саг.",
 			"Oxianboal",
+			"Андрей Саг.",
 			"Матыр"
 		]
 	},
@@ -16,10 +17,9 @@
 	"vector-action-protect": "Арачылирға",
 	"vector-view-create": "Идерге",
 	"vector-view-edit": "Тӱзедерге",
-	"vector-view-history": "Тархынны кӧрерге",
+	"vector-view-history": "Тархынны кӧзідерге",
 	"vector-view-view": "Хығырарға",
 	"vector-more-actions": "Паза пасхазы",
-	"vector-searchsuggest-containing": "<strong class=\"cdx-typeahead-search__search-footer__query\">$1</strong> пар страницаларны тілирi",
 	"vector-toc-label": "Таптырғас",
 	"vector-toc-beginning": "Пасталғаны",
 	"vector-main-menu-label": "Ӧӧн меню",

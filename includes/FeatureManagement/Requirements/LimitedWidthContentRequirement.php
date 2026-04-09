@@ -21,46 +21,40 @@
 
 namespace MediaWiki\Skins\Vector\FeatureManagement\Requirements;
 
-use Config;
+use MediaWiki\Config\Config;
+use MediaWiki\Request\WebRequest;
+use MediaWiki\Skins\Vector\ConfigHelper;
 use MediaWiki\Skins\Vector\Constants;
 use MediaWiki\Skins\Vector\FeatureManagement\Requirement;
-use Title;
-use WebRequest;
+use MediaWiki\Title\Title;
 
 /**
  * The `MaxWidthRequirement` for content.
  * @package MediaWiki\Skins\Vector\FeatureManagement\Requirements
  */
 final class LimitedWidthContentRequirement implements Requirement {
-	/**
-	 * @var Config
-	 */
-	private $config;
-
-	/**
-	 * @var WebRequest
-	 */
-	private $request;
-
-	/**
-	 * @var Title
-	 */
-	private $title;
+	private Config $config;
+	private ConfigHelper $configHelper;
+	private WebRequest $request;
+	private ?Title $title;
 
 	/**
 	 * This constructor accepts all dependencies needed to determine whether
 	 * the overridable config is enabled for the current user and request.
 	 *
 	 * @param Config $config
+	 * @param ConfigHelper $configHelper
 	 * @param WebRequest $request
 	 * @param Title|null $title can be null in testing environment
 	 */
 	public function __construct(
 		Config $config,
+		ConfigHelper $configHelper,
 		WebRequest $request,
-		$title = null
+		?Title $title = null
 	) {
 		$this->config = $config;
+		$this->configHelper = $configHelper;
 		$this->title = $title;
 		$this->request = $request;
 	}
@@ -91,55 +85,8 @@ final class LimitedWidthContentRequirement implements Requirement {
 	 * @param WebRequest $request
 	 * @return bool
 	 */
-	private static function shouldDisableMaxWidth( array $options, Title $title, WebRequest $request ) {
-		$canonicalTitle = $title->getRootTitle();
-
-		$inclusions = $options['include'] ?? [];
-		$exclusions = $options['exclude'] ?? [];
-
-		if ( $title->isMainPage() ) {
-			// only one check to make
-			return $exclusions['mainpage'] ?? false;
-		} elseif ( $canonicalTitle->isSpecialPage() ) {
-			$canonicalTitle->fixSpecialName();
-		}
-
-		//
-		// Check the inclusions based on the canonical title
-		// The inclusions are checked first as these trump any exclusions.
-		//
-		// Now we have the canonical title and the inclusions link we look for any matches.
-		foreach ( $inclusions as $titleText ) {
-			$includedTitle = Title::newFromText( $titleText );
-
-			if ( $canonicalTitle->equals( $includedTitle ) ) {
-				return false;
-			}
-		}
-
-		//
-		// Check the exclusions
-		// If nothing matches the exclusions to determine what should happen
-		//
-		$excludeNamespaces = $exclusions['namespaces'] ?? [];
-		// Max width is disabled on certain namespaces
-		if ( $title->inNamespaces( $excludeNamespaces ) ) {
-			return true;
-		}
-		$excludeQueryString = $exclusions['querystring'] ?? [];
-
-		foreach ( $excludeQueryString as $param => $excludedParamPattern ) {
-			$paramValue = $request->getRawVal( $param );
-			if ( $paramValue !== null ) {
-				if ( $excludedParamPattern === '*' ) {
-					// Backwards compatibility for the '*' wildcard.
-					$excludedParamPattern = '.+';
-				}
-				return (bool)preg_match( "/$excludedParamPattern/", $paramValue );
-			}
-		}
-
-		return false;
+	private function shouldDisableMaxWidth( array $options, Title $title, WebRequest $request ): bool {
+		return $this->configHelper->shouldDisable( $options, $request, $title );
 	}
 
 	/**
@@ -150,7 +97,7 @@ final class LimitedWidthContentRequirement implements Requirement {
 	 * @inheritDoc
 	 */
 	public function isMet(): bool {
-		return $this->title && !self::shouldDisableMaxWidth(
+		return $this->title && !$this->shouldDisableMaxWidth(
 			$this->config->get( 'VectorMaxWidthOptions' ),
 			$this->title,
 			$this->request

@@ -1,13 +1,14 @@
 {
 	"root": true,
 	"extends": [
-		"../.eslintrc.json"
+		"../resources/.eslintrc"
 	],
 	"parserOptions": {
 		"ecmaVersion": 2018
 	},
 	"rules": {
-		"es/no-object-assign": "off"
+		"es-x/no-rest-spread-properties": "off",
+		"es-x/no-async-functions": "off"
 	},
 	"env": {
 		"es6": true,

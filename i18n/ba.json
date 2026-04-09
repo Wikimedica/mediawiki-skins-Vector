@@ -2,12 +2,12 @@
 	"@metadata": {
 		"authors": [
 			"Assele",
+			"Bashkorttan",
 			"Haqmar",
 			"Sagan",
-			"Рустам Нурыев",
-			"З. ӘЙЛЕ",
 			"Айсар",
-			"Bashkorttan"
+			"З. ӘЙЛЕ",
+			"Рустам Нурыев"
 		]
 	},
 	"skinname-vector": "Векторлы иҫкергән (2010)",
@@ -16,8 +16,6 @@
 	"vector-skin-desc": "Векторлы ике биҙәлеш темаһы тәҡдим ителә:\n* 2011 - Яңыртылып биҙәлгән һәм ҡулланыу өсөн уңайлаштырылған MonoBook-тың заманса өлгөһө.\n* 2022 - ВМФ проекты буйынса эшләнгән [[mw:Desktop Improvements Эш өҫтәлен яҡшыртыу]] йүнәлеше.",
 	"prefs-vector-enable-vector-1-label": "Иҫке векторҙы ҡулланырға",
 	"prefs-vector-enable-vector-1-help": "Киләһе бер нисә йылда беҙ биҙәлештең «Вектор» темаһын яйлап яңыртасаҡбыҙ. Әлеге өлгө 2019 йылдың декабрендәге иҫке өлгөнө ҡарау мөмкинлеген бирә. Яңыртыуҙар тураһында күберәк белергә теләһәгеҙ,  [[mw:Reading/Web/Desktop_Improvements|проект битенә]] күсегеҙ.",
-	"vector-opt-out": "Элекке күренешкә күсергә",
-	"vector-opt-out-tooltip": "Биҙәлеш темаһының иҫке күренешенә кире ҡайтыу өсөн көйләүҙәрҙе үҙгәртегеҙ (иҫке Вектор)",
 	"vector-action-toggle-sidebar": "Ҡабырғалағы панелде күсерегеҙ",
 	"vector-languages": "Телдәр",
 	"vector-language-button-aria-label": "Икенсе телдәге мәҡәләгә күсегеҙ. {{PLURAL:$1|$1 телдә}} уҡырға була",
@@ -40,8 +38,14 @@
 	"vector-jumptosearch": "Эҙләүгә күсергә",
 	"vector-jumptocontent": "Эстәлеккә күсергә",
 	"vector-more-actions": "Тағы",
-	"vector-search-loader": "Эҙләү тексы йөкләнә",
-	"vector-searchsuggest-containing": "Эстәлегендә <strong class=\"cdx-typeahead-search__search-footer__query\">$1</strong> булған биттәрҙе эҙләргә",
+	"vector-appearance-label": "Уҡыу көйләүҙәре",
+	"vector-feature-limited-width-name": "Бағана киңлеге",
+	"vector-feature-limited-width-0-label": "Сикләүһеҙ киңлек",
+	"vector-feature-limited-width-1-label": "Сикләнгән киңлек",
+	"vector-feature-custom-font-size-name": "Шрифт ҙурлығы",
+	"vector-feature-custom-font-size-0-label": "Бәләкәй",
+	"vector-feature-custom-font-size-1-label": "Ғәҙәти",
+	"vector-feature-custom-font-size-2-label": "Ҙур",
 	"vector-intro-page": "Википедия:Рәхим итегеҙ",
 	"vector-toc-label": "Йөкмәткеһе",
 	"vector-toc-beginning": "Башы",
@@ -54,7 +58,6 @@
 	"vector-toc-collapsible-button-label": "Йөкмәткене күрһәтергә/йәшерергә",
 	"vector-site-nav-label": "Сайт",
 	"vector-main-menu-label": "Төп меню",
-	"vector-limited-width-toggle": "Йөкмәткенең сикләнгән киңлеген күрһәтергә/йәшерергә",
 	"vector-page-tools-label": "Ҡоралдар",
 	"vector-page-tools-general-label": "Дөйөм",
 	"vector-page-tools-actions-label": "Ғәмәлдәр",
@@ -62,7 +65,13 @@
 	"vector-unpin-element-label": "йәшерергә",
 	"vector-2022-prefs-talkpage": "[[mw:Talk:Reading/Web/Desktop_Improvements|Фекер алышыу]]",
 	"tooltip-vector-anon-user-menu-title": "Күберәк мөмкинлектәр",
+	"vector-page-tools-nav-label": "Ҡоралдар",
 	"vector-prefs-limited-width": "Сикләнгән киңлек режимын индерергә",
 	"vector-prefs-limited-width-help": "Уҡыу сифатын яҡшыртыу өсөн сикләнгән киңлек режимын ҡуйығыҙ.",
-	"empty-language-selector-body": "Башҡа телдәрҙә был бит юҡ"
+	"empty-language-selector-body": "Башҡа телдәрҙә был бит юҡ",
+	"vector-toc-unpinned-popup": "Йөкмәтке бында күсерелгән.",
+	"vector-page-tools-unpinned-popup": "Ҡоралдар менюһы бында күсерелгән.",
+	"vector-main-menu-unpinned-popup": "Төп меню бында күсерелгән.",
+	"vector-2022-beta-preview-label": "Vector 2022 бета",
+	"vector-2022-beta-preview-description": "Vector 2022 яңы мөмкинлектәрен алдан ҡарап сығыу"
 }

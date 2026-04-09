@@ -1,17 +1,15 @@
 {
 	"@metadata": {
 		"authors": [
-			"Amire80",
 			"Hanberke",
-			"TayfunEt."
+			"TayfunEt.",
+			"Zolgoyo"
 		]
 	},
-	"vector-opt-out": "Köne görnüşe geçiň",
 	"vector-languages": "Diller",
 	"vector-language-button-label": "{{PLURAL:$1|$1 Dil}}",
 	"vector-no-language-button-label": "Dil goşuň",
 	"vector-no-language-button-aria-label": "Bu makala diňe şu dilde bar. Makalany başga diller üçin goşuň",
-	"vector-language-redirect-to-top": "Bu {{SITENAME}} saýtynda diller ýokarda, makala adynyň ýanynda. [[#p-lang-btn|Ýokary git]].",
 	"vector-language-variant-switcher-label": "Dil görnüşini üýtgediň",
 	"vector-action-addsection": "Mowzuk goş",
 	"vector-action-delete": "Öçür",
@@ -28,7 +26,6 @@
 	"vector-jumptosearch": "Gözleg geçiň",
 	"vector-jumptocontent": "Mazmuna geçiň",
 	"vector-more-actions": "Has köp",
-	"vector-searchsuggest-containing": "Içindäki sahypalary gözläň <strong class=\"cdx-typeahead-search__search-footer__query\">$1</strong>",
 	"vector-toc-label": "Mazmuny",
 	"vector-toc-beginning": "Başlangyç",
 	"vector-anon-user-menu-pages-learn": "köpräk oka",

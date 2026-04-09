@@ -21,11 +21,10 @@
 
 namespace MediaWiki\Skins\Vector\Tests\Unit\Components;
 
+use MediaWiki\Message\Message;
 use MediaWiki\Skins\Vector\Components\VectorComponentPageTools;
 use MediaWiki\Skins\Vector\FeatureManagement\FeatureManager;
-use Message;
 use MessageLocalizer;
-use User;
 
 /**
  * @group Vector
@@ -33,7 +32,7 @@ use User;
  * @coversDefaultClass \MediaWiki\Skins\Vector\Components\VectorComponentPageTools
  */
 class VectorComponentPageToolsTest extends \MediaWikiUnitTestCase {
-	public function getPinnableHeaderData( $data = [] ) {
+	public static function getPinnableHeaderData( $data = [] ) {
 		return array_merge( [
 			'is-pinned' => false,
 			'label' => 'vector-page-tools-label',
@@ -47,7 +46,7 @@ class VectorComponentPageToolsTest extends \MediaWikiUnitTestCase {
 		], $data );
 	}
 
-	public function provideConstructorData() {
+	public static function provideConstructorData() {
 		$menus = [ [
 			'id' => 'p-cactions',
 			'array-items' => [ [
@@ -74,7 +73,7 @@ class VectorComponentPageToolsTest extends \MediaWikiUnitTestCase {
 				[
 					'id' => 'vector-page-tools',
 					'is-pinned' => false,
-					'data-pinnable-header' => $this->getPinnableHeaderData(),
+					'data-pinnable-header' => self::getPinnableHeaderData(),
 					'data-menus' => $expectedMenus
 				]
 			],
@@ -85,7 +84,7 @@ class VectorComponentPageToolsTest extends \MediaWikiUnitTestCase {
 				[
 					'id' => 'vector-page-tools',
 					'is-pinned' => true,
-					'data-pinnable-header' => $this->getPinnableHeaderData( [
+					'data-pinnable-header' => self::getPinnableHeaderData( [
 						'is-pinned' => true,
 					] ),
 					'data-menus' => $expectedMenus
@@ -98,7 +97,7 @@ class VectorComponentPageToolsTest extends \MediaWikiUnitTestCase {
 				[
 					'id' => 'vector-page-tools',
 					'is-pinned' => false,
-					'data-pinnable-header' => $this->getPinnableHeaderData(),
+					'data-pinnable-header' => self::getPinnableHeaderData(),
 					'data-menus' => $expectedMenus
 				]
 			]
@@ -122,15 +121,12 @@ class VectorComponentPageToolsTest extends \MediaWikiUnitTestCase {
 			$msg->method( 'text' )->willReturn( $key );
 			return $msg;
 		} );
-		$user = $this->createMock( User::class );
-		$user->method( 'isRegistered' )->willReturn( $isRegistered );
 		$featureManager = $this->createMock( FeatureManager::class );
 		$featureManager->method( 'isFeatureEnabled' )->willReturn( $isPinned );
 
 		$pageTools = new VectorComponentPageTools(
 			$menus,
 			$localizer,
-			$user,
 			$featureManager
 		);
 		$this->assertEquals( $expected, $pageTools->getTemplateData() );

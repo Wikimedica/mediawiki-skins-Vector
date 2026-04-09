@@ -1,7 +1,7 @@
 <?php
 namespace MediaWiki\Skins\Vector\Components;
 
-use Config;
+use MediaWiki\Config\Config;
 use MediaWiki\Skins\Vector\Constants;
 use MediaWiki\Skins\Vector\FeatureManagement\FeatureManager;
 use MessageLocalizer;
@@ -43,6 +43,7 @@ class VectorComponentTableOfContents implements VectorComponent {
 	) {
 		$this->tocData = $tocData;
 		$this->localizer = $localizer;
+		// FIXME: isPinned is no longer accurate because the appearance menu uses client preferences
 		$this->isPinned = $featureManager->isFeatureEnabled( Constants::FEATURE_TOC_PINNED );
 		$this->config = $config;
 		$this->pinnableHeader = new VectorComponentPinnableHeader(
@@ -55,9 +56,6 @@ class VectorComponentTableOfContents implements VectorComponent {
 		);
 	}
 
-	/**
-	 * @return bool
-	 */
 	public function isPinned(): bool {
 		return $this->isPinned;
 	}
@@ -69,7 +67,7 @@ class VectorComponentTableOfContents implements VectorComponent {
 	 */
 	public function getTemplateData(): array {
 		$sections = $this->tocData[ 'array-sections' ] ?? [];
-		if ( empty( $sections ) ) {
+		if ( !$sections ) {
 			return [];
 		}
 		// Populate button labels for collapsible TOC sections
@@ -87,10 +85,8 @@ class VectorComponentTableOfContents implements VectorComponent {
 
 		return $pinnableElement->getTemplateData() +
 			array_merge( $this->tocData, [
-			'is-vector-toc-beginning-enabled' => $this->config->get(
-				'VectorTableOfContentsBeginning'
-			),
 			'vector-is-collapse-sections-enabled' =>
+				count( $this->tocData['array-sections'] ) > 3 &&
 				$this->tocData[ 'number-section-count'] >= $this->config->get(
 					'VectorTableOfContentsCollapseAtCount'
 				),

@@ -1,19 +1,16 @@
 {
 	"@metadata": {
 		"authors": [
-			"Amire80",
+			"ANTHONY DERY",
+			"Joachim Yirkang",
 			"Linus Konkor",
 			"Yirkang",
-			"Zakaria Tunsung",
-			"ANTHONY DERY",
-			"Joachim Yirkang"
+			"Zakaria Tunsung"
 		]
 	},
 	"vector-skin-desc": "Tere victor eŋgama 2:\n* 2011 -A monobook ziyuo vɛɛseŋ ne kaa paala ane tontoŋ yaga baabo.\n* 2022 - A vector meɛbo naŋ paale a WMF   kyɛllɛ [[mw:Desktop Improvements]] toma.",
 	"prefs-vector-enable-vector-1-label": "De legacy vector",
 	"prefs-vector-enable-vector-1-help": "Yuomo naŋ waana, te na apdeetiri la Victor Skin beɛlɛ beɛlɛ. legacy victor na ko fo la sori ka fo kaa Victor vɛɛseŋ koroo (a ŋa disembare 2019). Ka fõõ boɔra ka fo zanne yɛlɛ yaga kyaare a apdeeti, gaa te  [[mw:Reading/Web/Desktop_Improvements|project page]].",
-	"vector-opt-out": "ŋmɛɛle gaa ara koɔraa",
-	"vector-opt-out-tooltip": "Leɛre a fo sɛgeroo na leɛ gaa a eŋgane zi koraa (legacy vector)",
 	"vector-action-toggle-sidebar": "ŋmɛɛle lombodari",
 	"vector-languages": "Kɔkɔɛ",
 	"vector-language-button-aria-label": "Gaa atekele Kɔkɔ yuo poɔ. A be la {{PLURAL:$1|$1 language|$1 kɔkɔɛ}}",
@@ -36,8 +33,14 @@
 	"vector-jumptosearch": "Vare le weɛre bɔ",
 	"vector-jumptocontent": "Vare le yelbulo",
 	"vector-more-actions": "Yaga",
-	"vector-search-loader": "Naŋ loodo la weɛroo teɛrɛ",
-	"vector-searchsuggest-containing": "Bɔ pɛllɛ naŋ taa <strong class=\"cdx-sɛgebozu-search__search-footer__query\">$1</strong>",
+	"vector-appearance-label": "Yelnyɔgeraa",
+	"vector-feature-limited-width-name": "Fɔɔlaa yaloŋ",
+	"vector-feature-limited-width-0-label": "Yaloŋ",
+	"vector-feature-limited-width-1-label": "Kpeɛõ vuo",
+	"vector-feature-custom-font-size-name": "Sɛgere",
+	"vector-feature-custom-font-size-0-label": "Bile",
+	"vector-feature-custom-font-size-1-label": "Kpeɛõ vuo",
+	"vector-feature-custom-font-size-2-label": "Kpoŋ",
 	"vector-intro-page": "Help:kyɛyuobo",
 	"vector-toc-label": "Yelbulo",
 	"vector-toc-beginning": "Piiluu",
@@ -50,7 +53,6 @@
 	"vector-toc-collapsible-button-label": "ŋmɛɛle a tabul yelbulo",
 	"vector-site-nav-label": "Zie",
 	"vector-main-menu-label": "Menu zumeŋɛ",
-	"vector-limited-width-toggle": "ŋmɛɛle yelbulo yaloŋ feeroo",
 	"vector-page-tools-label": "Tontoŋ bomma",
 	"vector-page-tools-general-label": "Te zaa",
 	"vector-page-tools-actions-label": "Eebo",
@@ -58,7 +60,14 @@
 	"vector-unpin-element-label": "Sɔgele",
 	"vector-2022-prefs-talkpage": "[[mw:Talk:Reading/Web/Desktop_Improvements|dɛmɛ diibu]]",
 	"tooltip-vector-anon-user-menu-title": "Mine naŋ Bebe la",
+	"vector-page-tools-nav-label": "Peegyi tontoŋ bomma",
 	"vector-prefs-limited-width": "Eŋ figibo yaloŋ waaloŋ",
 	"vector-prefs-limited-width-help": "Eŋ figibo yaloŋ waaloŋ ko baabo kannoo daŋyaabo.",
-	"empty-language-selector-body": "Peegyi yelbulo ba taa teɛbo Kɔkɔ yobo poɔ."
+	"empty-language-selector-body": "Peegyi yelbulo ba taa teɛbo Kɔkɔ yobo poɔ.",
+	"vector-toc-unpinned-popup": "A yelbulo tabol tage wa la kyɛ.",
+	"vector-page-tools-unpinned-popup": "A tontoŋ boma mɛnu tage wa la kyɛ.",
+	"vector-main-menu-unpinned-popup": "A yelzu niŋe tage wa la kyɛ.",
+	"vector-appearance-unpinned-popup": "A mɛnu saanaa tage wa la kyɛ.",
+	"vector-2022-beta-preview-label": "Vuo nyaabo ko kannoo (Vector 2022)",
+	"vector-2022-beta-preview-description": "Nyɛ vuo wieoŋ ko a kannoo vuo nyɛraa paalaa nandaare, a seŋ topogyerefi baabo ane yinsoga moodi."
 }

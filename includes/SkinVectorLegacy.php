@@ -2,10 +2,11 @@
 
 namespace MediaWiki\Skins\Vector;
 
-use MediaWiki\Skins\Vector\Components\VectorComponentMenuVariants;
+use MediaWiki\Languages\LanguageConverterFactory;
+use MediaWiki\Skin\SkinMustache;
+use MediaWiki\Skin\SkinTemplate;
 use MediaWiki\Skins\Vector\Components\VectorComponentSearchBox;
-use SkinMustache;
-use SkinTemplate;
+use MediaWiki\Skins\Vector\Components\VectorComponentVariants;
 
 /**
  * @ingroup Skins
@@ -20,6 +21,13 @@ class SkinVectorLegacy extends SkinMustache {
 	/** @var int */
 	private const MENU_TYPE_DROPDOWN = 2;
 	private const MENU_TYPE_PORTAL = 3;
+
+	public function __construct(
+		private readonly LanguageConverterFactory $languageConverterFactory,
+		array $options
+	) {
+		parent::__construct( $options );
+	}
 
 	/**
 	 * @inheritDoc
@@ -107,12 +115,13 @@ class SkinVectorLegacy extends SkinMustache {
 		// Special casing for Variant to change label to selected.
 		// Hopefully we can revisit and possibly remove this code when the language switcher is moved.
 		if ( $key === 'data-variants' ) {
-			$variantMenu = new VectorComponentMenuVariants(
+			$variant = new VectorComponentVariants(
+				$this->languageConverterFactory,
 				$portletData,
 				$this->getTitle()->getPageLanguage(),
 				$this->msg( 'vector-language-variant-switcher-label' )
 			);
-			$portletData = $variantMenu->getTemplateData();
+			$portletData[ 'label' ] = $variant->getTemplateData()[ 'data-variants-dropdown' ][ 'label' ];
 		}
 
 		$portletData = $this->updatePortletClasses(

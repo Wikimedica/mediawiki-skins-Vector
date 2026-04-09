@@ -2,10 +2,11 @@
 
 namespace MediaWiki\Skins\Vector\Tests\Unit\FeatureManagement\Requirements;
 
+use MediaWiki\Request\FauxRequest;
 use MediaWiki\Skins\Vector\FeatureManagement\Requirements\UserPreferenceRequirement;
-use MediaWiki\User\UserOptionsLookup;
-use Title;
-use User;
+use MediaWiki\Title\Title;
+use MediaWiki\User\Options\UserOptionsLookup;
+use MediaWiki\User\UserIdentity;
 
 /**
  * @group Vector
@@ -13,11 +14,11 @@ use User;
  * @coversDefaultClass \MediaWiki\Skins\Vector\FeatureManagement\Requirements\UserPreferenceRequirement
  */
 final class UserPreferenceRequirementTest extends \MediaWikiUnitTestCase {
-	public function providerTestIsMetRequirement() {
+	public static function providerTestIsMetRequirement() {
 		return [
 			[
 				// Is option enabled?
-				true,
+				1,
 				// Is title present?
 				true,
 				// Expected
@@ -26,7 +27,7 @@ final class UserPreferenceRequirementTest extends \MediaWikiUnitTestCase {
 			],
 			[
 				// Is option enabled?
-				false,
+				0,
 				// Is title present?
 				true,
 				// Expected
@@ -35,12 +36,36 @@ final class UserPreferenceRequirementTest extends \MediaWikiUnitTestCase {
 			],
 			[
 				// Is option enabled?
-				true,
+				'enabled',
 				// Is title present?
 				false,
 				// Expected
 				false,
 				'If enabled but title null, returns false'
+			],
+			[
+				'disabled',
+				// Is title present?
+				true,
+				// Expected
+				false,
+				'If disabled, returns false'
+			],
+			[
+				'0',
+				// Is title present?
+				true,
+				// Expected
+				false,
+				'If disabled, returns false'
+			],
+			[
+				'medium',
+				// Is title present?
+				true,
+				// Expected
+				true,
+				'If unrecognized string returns true'
 			],
 		];
 	}
@@ -59,18 +84,19 @@ final class UserPreferenceRequirementTest extends \MediaWikiUnitTestCase {
 		$expected,
 		$msg
 	) {
-		$user = $this->createMock( User::class );
+		$user = $this->createMock( UserIdentity::class );
 		$title = $isTitlePresent ? $this->createMock( Title::class ) : null;
+		$request = new FauxRequest();
 
 		$userOptionsLookup = $this->createMock( UserOptionsLookup::class );
 		$userOptionsLookup->method( 'getOption' )->willReturn( $isEnabled );
-		$userOptionsLookup->method( 'getBoolOption' )->willReturn( $isEnabled );
 
 		$requirement = new UserPreferenceRequirement(
 			$user,
 			$userOptionsLookup,
 			'userOption',
 			'userRequirement',
+			$request,
 			$title
 		);
 
