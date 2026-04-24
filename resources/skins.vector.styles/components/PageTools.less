@@ -4,6 +4,12 @@
 	display: none;
 }
 
+// Page tools are forced unpinned in the fork (see FeatureManagerFactory::createFeatureManager),
+// so the pin/unpin toggle is a no-op — hide it to avoid confusing users.
+.vector-page-tools-pinnable-header .vector-pinnable-header-toggle-button {
+	display: none;
+}
+
 // Ensure collapsible items are visible on lower resolutions
 .vector-page-tools .vector-more-collapsible-item {
 	display: block;

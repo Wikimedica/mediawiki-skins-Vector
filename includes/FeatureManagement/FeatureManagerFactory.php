@@ -29,6 +29,7 @@ use MediaWiki\Skins\Vector\FeatureManagement\Requirements\DynamicConfigRequireme
 use MediaWiki\Skins\Vector\FeatureManagement\Requirements\LimitedWidthContentRequirement;
 use MediaWiki\Skins\Vector\FeatureManagement\Requirements\LoggedInRequirement;
 use MediaWiki\Skins\Vector\FeatureManagement\Requirements\OverridableConfigRequirement;
+use MediaWiki\Skins\Vector\FeatureManagement\Requirements\SimpleRequirement;
 use MediaWiki\Skins\Vector\FeatureManagement\Requirements\UserPreferenceRequirement;
 use MediaWiki\User\Options\UserOptionsLookup;
 
@@ -122,14 +123,12 @@ class FeatureManagerFactory {
 			)
 		);
 
+		// Force page tools to always be unpinned (always rendered inside the "Tools" dropdown
+		// in the page tab bar, never as a right-sidebar panel), regardless of user preference.
 		$featureManager->registerRequirement(
-			new UserPreferenceRequirement(
-				$user,
-				$this->userOptionsLookup,
-				Constants::PREF_KEY_PAGE_TOOLS_PINNED,
+			new SimpleRequirement(
 				Constants::REQUIREMENT_PAGE_TOOLS_PINNED,
-				$request,
-				$title
+				false
 			)
 		);
 
