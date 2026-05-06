@@ -179,7 +179,14 @@ class FeatureManagerFactory {
 			Constants::FEATURE_MAIN_MENU_PINNED,
 			[
 				Constants::REQUIREMENT_FULLY_INITIALISED,
-				Constants::REQUIREMENT_LOGGED_IN,
+				/*
+				 * Wikimedica fork: removed REQUIREMENT_LOGGED_IN so anonymous (first-time)
+				 * visitors also get the main menu pinned to the left sidebar by default
+				 * instead of seeing only the hamburger button. The default user option
+				 * "vector-main-menu-pinned" is 1, but upstream gates this feature behind
+				 * being logged in, so anonymous users never received it.
+				 */
+				// Constants::REQUIREMENT_LOGGED_IN,
 				Constants::REQUIREMENT_MAIN_MENU_PINNED
 			]
 		);
